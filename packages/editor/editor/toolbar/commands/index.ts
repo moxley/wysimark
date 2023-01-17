@@ -9,9 +9,7 @@ import {
   CssIcon,
   EllipsisIcon,
   FileCodeIcon,
-  H1Icon,
-  H2Icon,
-  H3Icon,
+  HeadingIcons,
   HrIcon,
   HtmlIcon,
   ImageIcon,
@@ -47,7 +45,7 @@ export type ActionProps = {
   toolbarState: ToolbarState
 }
 
-type SVGComponent = (props: SVGProps<SVGSVGElement>) => JSX.Element
+export type SVGComponent = (props: SVGProps<SVGSVGElement>) => JSX.Element
 
 export type Command = {
   id?: string // optional id to identify certain commands for removal in toolbar
@@ -70,49 +68,25 @@ export function isCommand(item: Item): item is Command {
   return item.divider == null
 }
 
+const headingNumbers = [1, 2, 3, 4, 5, 6] as const
+
+const headingCommands = headingNumbers.map<Item>((n) => ({
+  SvgIcon: HeadingIcons.get(n),
+  label: `Heading ${n}`,
+  hotkey: `super+${n}`,
+  action({ editor }) {
+    Custom.toggleHeading(editor, n)
+  },
+  isActive(state) {
+    return (
+      isElementByType<HeadingElement>(state.block, "heading") &&
+      state.block.level === n
+    )
+  },
+}))
+
 export const SIMPLE_COMMANDS: Item[] = [
-  {
-    SvgIcon: H1Icon,
-    label: "Heading 1",
-    hotkey: "super+1",
-    action({ editor }) {
-      Custom.toggleHeading(editor, 1)
-    },
-    isActive(state) {
-      return (
-        isElementByType<HeadingElement>(state.block, "heading") &&
-        state.block.level === 1
-      )
-    },
-  },
-  {
-    SvgIcon: H2Icon,
-    label: "Heading 2",
-    hotkey: "super+2",
-    action({ editor }) {
-      Custom.toggleHeading(editor, 2)
-    },
-    isActive(state) {
-      return (
-        isElementByType<HeadingElement>(state.block, "heading") &&
-        state.block.level === 2
-      )
-    },
-  },
-  {
-    SvgIcon: H3Icon,
-    label: "Heading 3",
-    hotkey: "super+3",
-    action({ editor }) {
-      Custom.toggleHeading(editor, 3)
-    },
-    isActive(state) {
-      return (
-        isElementByType<HeadingElement>(state.block, "heading") &&
-        state.block.level === 3
-      )
-    },
-  },
+  ...headingCommands,
   // {
   //   faIcon: faParagraph,
   //   label: "Normal",

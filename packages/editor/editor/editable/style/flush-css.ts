@@ -60,7 +60,7 @@ export const flushCss = css`
   * + h4,
   * + h5,
   * + h6 {
-    padding: 1em 0 0.25em;
+    padding: 0.5em 0 0.25em;
     /* margin-top: 1.5em; */
   }
   * + p {

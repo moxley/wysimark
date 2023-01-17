@@ -155,7 +155,9 @@ function Button({
         onMouseDown={onMouseDown}
         style={{ position: "relative" }}
       >
-        {SvgIcon ? <SvgIcon className="wm-svg-icon" /> : null}
+        {SvgIcon ? (
+          <SvgIcon className="wm-svg-icon" style={{ margin: "0 auto" }} />
+        ) : null}
         {dropdown ? <DropdownIcon /> : null}
       </$IconButton>
     </Tooltip>
