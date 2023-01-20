@@ -88,10 +88,10 @@ export function useEditor(
     (editorRef.current && !shallowEquals(depsRef.current, deps))
   ) {
     const editor = withEditor(createEditor())
-    editor.initialMarkdown = initialMarkdown
     editorRef.current = editor
     depsRef.current = deps
   }
+  editorRef.current.initialMarkdown = initialMarkdown
   /**
    * We want to change these values live in our demo. Since it doesn't affect
    * the content, we can change these references and the next time the user
